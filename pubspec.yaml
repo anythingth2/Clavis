@@ -26,6 +26,7 @@ dependencies:
   circular_check_box: ^1.0.1
   page_transition: ^1.1.5
   dio: ^3.0.8
+  qr_flutter: ^3.2.0
   
 dev_dependencies:
   flutter_test:

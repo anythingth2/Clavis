@@ -1,6 +1,8 @@
+import 'package:clavis/ReceiveQRPage.dart';
 import 'package:clavis/Repository.dart';
 import 'package:clavis/API.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -50,7 +52,14 @@ class _HomePageState extends State<HomePage> {
             MaterialButton(
               child: Text('Receive'),
               color: Colors.cyan,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: ReceiveQRPage(),
+                        type: PageTransitionType.rightToLeft,
+                        duration: Duration(milliseconds: 200)));
+              },
             )
           ],
         ),
