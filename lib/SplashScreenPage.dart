@@ -1,9 +1,12 @@
 // import 'dart:wasm';
 
+import 'package:clavis/HomePage.dart';
 import 'package:clavis/Model.dart';
 import 'package:clavis/Repository.dart';
+import 'package:clavis/WireTransferPage.dart';
 import 'package:flutter/material.dart';
 import 'package:clavis/API.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreenPage extends StatelessWidget {
   @override
@@ -11,6 +14,12 @@ class SplashScreenPage extends StatelessWidget {
     API.createWallet().then((Wallet wallet) {
       wallet.printStatus();
       Repository.initialize(wallet);
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              child: HomePage(),
+              type: PageTransitionType.rightToLeft,
+              duration: Duration(milliseconds: 200)));
     });
     return Scaffold(
       body: Container(

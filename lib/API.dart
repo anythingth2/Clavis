@@ -10,4 +10,11 @@ class API {
         await client.post('https://libraservice3.kulap.io/createWallet');
     return Wallet.fromJSON(res.data);
   }
+
+  static Future<void> updateBalance(Wallet wallet) async {
+    Response res = await client.post(
+        'https://libraservice2.kulap.io/getBalance',
+        data: {'address': wallet.address});
+    wallet.updateBalance(res.data['balance']);
+  }
 }
