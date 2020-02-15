@@ -1,4 +1,5 @@
 import 'package:clavis/WireTransferPage.dart';
+import 'package:clavis/SplashScreenPage.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Clavis'),
+      home: SplashScreenPage(),
     );
   }
 }

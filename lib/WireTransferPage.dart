@@ -9,6 +9,20 @@ class WireTransferPage extends StatefulWidget {
 
 class _WireTransferPageState extends State<WireTransferPage> {
   double exchangeRate = 213.123;
+  String note = '';
+  TextEditingController noteController;
+
+  @override
+  void initState() {
+    super.initState();
+    noteController = TextEditingController(text: '');
+    noteController.addListener(() {
+      setState(() {
+        note = noteController.text;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,6 +55,7 @@ class _WireTransferPageState extends State<WireTransferPage> {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: CurrencyField(
                       currencies: ['THB', 'USD'],
+                      onChange: (selected, amount, selectedCurrency) {},
                     ),
                   ),
                   Padding(
@@ -68,7 +83,7 @@ class _WireTransferPageState extends State<WireTransferPage> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              '0 / 40',
+                              '${note.length} / 40',
                               style:
                                   TextStyle(fontSize: 16, color: Colors.grey),
                             )
@@ -148,9 +163,13 @@ class TextPrice extends StatelessWidget {
   }
 }
 
+typedef CurrencyFieldOnChange(
+    bool selected, double amount, String selectedCurrency);
+
 class CurrencyField extends StatefulWidget {
   List<String> currencies;
-  CurrencyField({this.currencies});
+  CurrencyFieldOnChange onChange;
+  CurrencyField({this.currencies, this.onChange});
   @override
   _CurrencyFieldState createState() => _CurrencyFieldState();
 }
@@ -161,10 +180,23 @@ class _CurrencyFieldState extends State<CurrencyField> {
 
   String selectedCurrency;
 
+  TextEditingController amountController;
   @override
   void initState() {
     super.initState();
     selectedCurrency = widget.currencies[0];
+    amountController = TextEditingController(text: '');
+    amountController.addListener(() {
+      _amount = double.tryParse(amountController.text);
+      notify();
+    });
+  }
+
+  void notify() {
+    print(
+        'selected: $_selected\tamount: $_amount\tselectedCurrency: $selectedCurrency');
+    if (widget.onChange != null)
+      widget.onChange(_selected, _amount, selectedCurrency);
   }
 
   @override
@@ -178,6 +210,7 @@ class _CurrencyFieldState extends State<CurrencyField> {
               onChanged: (v) {
                 setState(() {
                   _selected = v;
+                  notify();
                 });
               }),
           Expanded(
@@ -185,6 +218,8 @@ class _CurrencyFieldState extends State<CurrencyField> {
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)))),
+              controller: amountController,
+              keyboardType: TextInputType.number,
             ),
           ),
           Padding(
@@ -202,6 +237,7 @@ class _CurrencyFieldState extends State<CurrencyField> {
               onChanged: (value) {
                 setState(() {
                   selectedCurrency = value;
+                  notify();
                 });
               },
             ),
