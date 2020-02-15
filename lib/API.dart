@@ -41,4 +41,18 @@ class API {
             ])
         .toList();
   }
+
+  static Future<List<List<String>>> getOrderAsk() async {
+    Response res = await client
+        .get('https://api.binance.com/api/v3/depth?symbol=BTCUSDT&limit=10');
+    List bids = res.data['asks'];
+    return bids
+        .map<List<String>>((row) => [
+              row[0],
+              row[1],
+              (double.parse(row[0]) * double.parse(row[1])).toString()
+            ])
+        .toList();
+  }
+
 }

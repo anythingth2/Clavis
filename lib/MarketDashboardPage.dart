@@ -11,13 +11,17 @@ class _MarketDashboardPageState extends State<MarketDashboardPage> {
   TabController tabController;
 
   List<List<String>> bids = [];
+  List<List<String>> asks = [];
+
   @override
   void initState() {
     super.initState();
     Timer.periodic(Duration(milliseconds: 500), (_) async {
       List _bids = await API.getOrder();
+      List _asks = await API.getOrderAsk();
       setState(() {
         bids = _bids;
+        asks = _asks;
       });
     });
   }
@@ -91,32 +95,17 @@ class _MarketDashboardPageState extends State<MarketDashboardPage> {
               ],
             ),
             TransactionTable(
-              headers: ['Libra', 'Amount', 'Value'],
+              headers: ['BTC', 'Amount', 'Price'],
               rows: bids,
               footer: bids.first.first.substring(0, 7),
             ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  'Market Trades',
+                  'Sell Order',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 )),
-            TransactionTable(
-              headers: ['Time', 'Amount', 'Price'],
-              rows: [
-                ['123123', '321123', '132111'],
-                ['112325', '432121', '113211'],
-                ['121237', '823214', '453555'],
-                ['123453', '363456', '553551'],
-                ['123453', '363456', '553551'],
-                ['123453', '363456', '553551'],
-                ['123453', '363456', '553551'],
-                ['123453', '363456', '553551'],
-                ['123453', '363456', '553551'],
-                ['123453', '363456', '553551'],
-              ],
-              footer: 'Footer',
-            ),
+            TransactionTable(headers: ['BTC', 'Amount', 'Price'], rows: asks),
           ],
         ),
       ),
