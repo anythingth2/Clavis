@@ -17,4 +17,16 @@ class API {
         data: {'address': wallet.address});
     wallet.updateBalance(res.data['balance']);
   }
+
+  static Future<void> transfer(
+      {Wallet fromWallet, String toAddress, String amount}) async {
+    Response res =
+        await client.post('https://libraservice3.kulap.io/transfer', data: {
+      'fromAddress': fromWallet.address,
+      'mnemonic': fromWallet.mnemonic,
+      'toAddress': toAddress,
+      'amount': amount
+    });
+    
+  }
 }

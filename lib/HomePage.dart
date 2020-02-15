@@ -1,8 +1,10 @@
 import 'package:clavis/ReceiveQRPage.dart';
 import 'package:clavis/Repository.dart';
 import 'package:clavis/API.dart';
+import 'package:clavis/TransferQRPage.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class HomePage extends StatefulWidget {
   @override
@@ -47,7 +49,17 @@ class _HomePageState extends State<HomePage> {
             MaterialButton(
               child: Text('Transfer'),
               color: Colors.cyan,
-              onPressed: () {},
+              onPressed: () {
+                scanner.scan().then((qr) {
+                  print('qr $qr');
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: TransferQRPage(toAddress: qr,),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 200)));
+                });
+              },
             ),
             MaterialButton(
               child: Text('Receive'),
