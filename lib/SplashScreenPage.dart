@@ -10,7 +10,7 @@ import 'package:clavis/WireTransferPage.dart';
 import 'package:flutter/material.dart';
 import 'package:clavis/API.dart';
 import 'package:page_transition/page_transition.dart';
-
+import 'createOrderPage.dart';
 class SplashScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class SplashScreenPage extends StatelessWidget {
       Navigator.pushReplacement(
           context,
           PageTransition(
-              child: MarketDashboardPage(),
+              child: createOrderPage(),
               type: PageTransitionType.rightToLeft,
               duration: Duration(milliseconds: 200)));
     });
